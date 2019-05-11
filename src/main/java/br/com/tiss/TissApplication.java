@@ -20,12 +20,12 @@ public class TissApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		User user = createUser();
-		this.userService.save(user);
+//		this.userService.save(user);
 	}
 
 	private User createUser() {
 		User user = new User();
-		user.setId(5L);
+//		user.setId(5L);
 		user.setEmail("leandro@gmail.com");
 		user.setName("Leandro");
 		user.setPassword("123456");
