@@ -1,10 +1,9 @@
 package br.com.tiss.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.tiss.model.User;
@@ -42,9 +41,8 @@ public class UserService implements UserCrudService {
 	}
 
 	@Override
-	public Iterable<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> findAll() {
+		return repository.findAll();
 	}
 
 	@Override
