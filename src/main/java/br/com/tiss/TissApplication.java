@@ -25,7 +25,6 @@ public class TissApplication implements CommandLineRunner {
 
 	private User createUser() {
 		User user = new User();
-//		user.setId(5L);
 		user.setEmail("leandro@gmail.com");
 		user.setName("Leandro");
 		user.setPassword("123456");

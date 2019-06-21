@@ -34,11 +34,30 @@ public class UserController {
 		return userService.findAll(); 
 	}
 	
-	@PreAuthorize("#oauth2.hasScope('write')")
+	@PreAuthorize("#oauth2.hasScope('read')")
 	@RequestMapping(method = RequestMethod.POST, value = "/user/save")
 	@ResponseBody
-	public User save(@RequestBody User user) {
-		return userService.save(user); 
+	public RespostaWS save(@RequestBody User user) {
+		try {
+			userService.save(user);
+			return criarRespostaSucesso();
+		} catch (Exception e) {
+			return criarRespostaErro();
+		}
+	}
+
+	private RespostaWS criarRespostaErro() {
+		RespostaWS resposta = new RespostaWS();
+		resposta.setResposta("Erro ao realizar operacao!");
+		resposta.setSucesso(false);
+		return resposta;
+	}
+
+	private RespostaWS criarRespostaSucesso() {
+		RespostaWS resposta = new RespostaWS();
+		resposta.setResposta("Operacao realizada com sucesso!");
+		resposta.setSucesso(true);
+		return resposta;
 	}
 	
 }
