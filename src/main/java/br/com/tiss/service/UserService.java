@@ -2,9 +2,12 @@ package br.com.tiss.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.UUIDGenerator;
 
 import br.com.tiss.model.User;
 import br.com.tiss.repository.user.UserRepository;
@@ -17,6 +20,7 @@ public class UserService implements UserCrudService {
 
 	@Override
 	public <S extends User> S save(S entity) {
+		entity.setId(new UUIDGenerator().generateId(entity));
 		return repository.save(entity);
 	}
 
@@ -26,17 +30,16 @@ public class UserService implements UserCrudService {
 	}
 
 	@Override
-	public Optional<User> findById(Long id) {
-		return null;
-	}
-	
-	@Override
 	public Optional<User> findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
 	
+	public void update(User user) {
+		this.repository.save(user);
+	}
+	
 	@Override
-	public boolean existsById(Long id) {
+	public boolean existsById(UUID id) {
 		return false;
 	}
 
@@ -46,7 +49,7 @@ public class UserService implements UserCrudService {
 	}
 
 	@Override
-	public Iterable<User> findAllById(Iterable<Long> ids) {
+	public Iterable<User> findAllById(Iterable<UUID> ids) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -58,7 +61,7 @@ public class UserService implements UserCrudService {
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(UUID id) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -73,6 +76,11 @@ public class UserService implements UserCrudService {
 	public boolean existsByEmail(String email) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Optional<User> findById(UUID id) {
+		return repository.findById(id);
 	}
 
 }

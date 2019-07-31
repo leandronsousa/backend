@@ -1,6 +1,7 @@
 package br.com.tiss.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,10 +22,10 @@ public class UserController {
 	private UserService userService;
 
 	@PreAuthorize("#oauth2.hasScope('read')")
-	@RequestMapping(method = RequestMethod.GET, value = "/user/{email}")
+	@RequestMapping(method = RequestMethod.GET, value = "/user/{id}")
 	@ResponseBody
-	public User findByEmail(@PathVariable String email) {
-		return userService.findByEmail(email).get(); 
+	public User findByEmail(@PathVariable String id) {
+		return userService.findById(UUID.fromString(id)).get(); 
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('read')")
@@ -40,6 +41,18 @@ public class UserController {
 	public RespostaWS save(@RequestBody User user) {
 		try {
 			userService.save(user);
+			return criarRespostaSucesso();
+		} catch (Exception e) {
+			return criarRespostaErro();
+		}
+	}
+	
+	@PreAuthorize("#oauth2.hasScope('read')")
+	@RequestMapping(method = RequestMethod.PATCH, value = "/user/update")
+	@ResponseBody
+	public RespostaWS update(@RequestBody User user) {
+		try {
+			userService.update(user);
 			return criarRespostaSucesso();
 		} catch (Exception e) {
 			return criarRespostaErro();

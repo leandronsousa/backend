@@ -1,6 +1,7 @@
 package br.com.tiss.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +12,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 7086303835171017152L;
 
 	@Id
-	private Long id;
+	private UUID id;
 
 	private String email;
 	
@@ -19,11 +20,11 @@ public class User implements Serializable {
 
 	private String name;
 	
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
