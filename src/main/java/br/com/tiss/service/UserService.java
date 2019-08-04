@@ -21,7 +21,7 @@ public class UserService implements UserCrudService {
 	@Override
 	public <S extends User> S save(S entity) {
 		entity.setId(new UUIDGenerator().generateId(entity));
-		return repository.save(entity);
+		return repository.insert(entity);
 	}
 
 	@Override

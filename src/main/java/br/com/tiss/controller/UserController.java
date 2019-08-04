@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,66 +13,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.tiss.model.User;
+import br.com.tiss.service.GuiaSpSadtService;
 import br.com.tiss.service.UserService;
 
 @Controller
-public class UserController {
-	
+public class UserController extends br.com.tiss.controller.Controller {	
+
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private GuiaSpSadtService s;
 
 	@PreAuthorize("#oauth2.hasScope('read')")
 	@RequestMapping(method = RequestMethod.GET, value = "/user/{id}")
 	@ResponseBody
 	public User findByEmail(@PathVariable String id) {
-		return userService.findById(UUID.fromString(id)).get(); 
+		User user = userService.findById(UUID.fromString(id)).get();
+		if (user == null) {
+			throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+		}
+		return user;
+		 
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('read')")
 	@RequestMapping(method = RequestMethod.GET, value = "/user/list")
 	@ResponseBody
 	public List<User> list() {
-		return userService.findAll(); 
+		s.saveFake();
+		return userService.findAll();
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('read')")
 	@RequestMapping(method = RequestMethod.POST, value = "/user/save")
 	@ResponseBody
-	public RespostaWS save(@RequestBody User user) {
+	public ResponseEntity<String> save(@RequestBody User user) {
 		try {
 			userService.save(user);
-			return criarRespostaSucesso();
+			return created();
 		} catch (Exception e) {
-			return criarRespostaErro();
+			return error();
 		}
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('read')")
 	@RequestMapping(method = RequestMethod.PATCH, value = "/user/update")
 	@ResponseBody
-	public RespostaWS update(@RequestBody User user) {
+	public ResponseEntity<String> update(@RequestBody User user) {
 		try {
 			userService.update(user);
-			return criarRespostaSucesso();
+			return updated();
 		} catch (Exception e) {
-			return criarRespostaErro();
+			return error();
 		}
 	}
 
-	private RespostaWS criarRespostaErro() {
-		RespostaWS resposta = new RespostaWS();
-		resposta.setResposta("Erro ao realizar operacao!");
-		resposta.setSucesso(false);
-		return resposta;
-	}
-
-	private RespostaWS criarRespostaSucesso() {
-		RespostaWS resposta = new RespostaWS();
-		resposta.setResposta("Operacao realizada com sucesso!");
-		resposta.setSucesso(true);
-		return resposta;
-	}
-	
 }
