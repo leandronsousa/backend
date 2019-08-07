@@ -69,7 +69,7 @@ public class GuiaSpSadt implements Serializable {
 	
 	private String codigoContratadoExecutante;
 	
-	private String CnesContratadoExecutante;
+	private String cnesContratadoExecutante;
 	
 	private TipoAtendimentoEnum tipoAtendimento;
 	
@@ -296,11 +296,11 @@ public class GuiaSpSadt implements Serializable {
 	}
 
 	public String getCnesContratadoExecutante() {
-		return CnesContratadoExecutante;
+		return cnesContratadoExecutante;
 	}
 
 	public void setCnesContratadoExecutante(String cnesContratadoExecutante) {
-		CnesContratadoExecutante = cnesContratadoExecutante;
+		this.cnesContratadoExecutante = cnesContratadoExecutante;
 	}
 
 	public TipoAtendimentoEnum getTipoAtendimento() {
