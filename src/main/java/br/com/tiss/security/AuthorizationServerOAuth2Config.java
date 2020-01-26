@@ -15,6 +15,9 @@ public class AuthorizationServerOAuth2Config  extends AuthorizationServerConfigu
 	
 	private @Autowired ResourceServerOAuth2Config resourceServerOAuth2Config;
 	
+	private static final String CLIENT_ID = "app-tiss-pass";
+	private static final String CLIENT_SECRET = "aNWTdoGwBD1evkBIxNl6WdDvFtc0LBV1dxQ-dA_qLhTrJCWzkkerUFy_GwylPCotoqhtBP4AJ1GadQGl";
+	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();
@@ -23,16 +26,17 @@ public class AuthorizationServerOAuth2Config  extends AuthorizationServerConfigu
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-			.withClient("app-tiss")
-			.authorizedGrantTypes("implicit")
-			.scopes("read")
-			.autoApprove(true)
-			.and()
-			.withClient("app-tiss-pass")
-			.secret("apptiss123456")
-			.authorizedGrantTypes("password","authorization_code","refresh_token")
+//			.withClient("app-tiss")
+//			.authorizedGrantTypes("implicit")
+//			.scopes("read")
+//			.autoApprove(true)
+//			.and()
+			.withClient(CLIENT_ID)
+			.secret(CLIENT_SECRET)
+			.authorizedGrantTypes("password","refresh_token")
 			.scopes("read","write")
-			.autoApprove(true);
+			.autoApprove(true)
+			.redirectUris("http://localhost:4200/operadoras");
 	}
 	
 	@Override

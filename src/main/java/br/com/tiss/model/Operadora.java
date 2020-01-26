@@ -1,6 +1,7 @@
 package br.com.tiss.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
@@ -9,34 +10,34 @@ public class Operadora implements Serializable {
 	private static final long serialVersionUID = -2788065631740146950L;
 
 	@Id
-	private Long id;
+	private UUID id;
 
-	private String name;
+	private String nome;
 
-	private Integer code;
+	private Integer codigo;
 
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public Integer getCode() {
-		return code;
+	public Integer getCodigo() {
+		return codigo;
 	}
 
-	public void setCode(Integer code) {
-		this.code = code;
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 
 }

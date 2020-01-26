@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.UUIDGenerator;
@@ -13,7 +15,7 @@ import br.com.tiss.model.User;
 import br.com.tiss.repository.user.UserRepository;
 
 @Service
-public class UserService implements UserCrudService {
+public class UserService implements UserCrudService, UserDetailsService {
 	
 	@Autowired
 	private UserRepository repository;
@@ -81,6 +83,19 @@ public class UserService implements UserCrudService {
 	@Override
 	public Optional<User> findById(UUID id) {
 		return repository.findById(id);
+	}
+	
+	@Override
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
+		try {
+			Optional<User> user = findByEmail(username);
+			if (user.isEmpty()) {
+				throw new UsernameNotFoundException("user not found");
+			}
+			return user.get();
+		} catch (Exception e) {
+			throw new UsernameNotFoundException("error");
+		}
 	}
 
 }

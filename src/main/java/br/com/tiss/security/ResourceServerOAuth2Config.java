@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
+import br.com.tiss.service.UserService;
+
 @Configuration
 @EnableResourceServer
 @EnableWebSecurity
@@ -21,22 +23,23 @@ public class ResourceServerOAuth2Config  extends WebSecurityConfigurerAdapter  {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	@Autowired
+	private UserService userService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login/*").permitAll()
-			.antMatchers("/**").authenticated()
-			.and()
-			.formLogin()
-			.permitAll()
-			.and()
-			.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
-			.and()
-			.cors().disable().authorizeRequests();
+		http.authorizeRequests().antMatchers("/login", "/oauth/authorize").permitAll()
+			.and().authorizeRequests().anyRequest().authenticated()
+			.and().formLogin().permitAll()
+//			.and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
+			.and().cors().disable().authorizeRequests();
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.parentAuthenticationManager(authenticationManager).inMemoryAuthentication().withUser("leandro@gmail.com").password("123456").roles("ADMIN");
+		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//		auth.parentAuthenticationManager(authenticationManager).userDetailsService(userService).passwordEncoder(passwordEncoder());
+//		auth.parentAuthenticationManager(authenticationManager).inMemoryAuthentication().withUser("leandro@gmail.com").password("leandro@gmail.com").roles("ADMIN");
 	}
 
 	@Bean
