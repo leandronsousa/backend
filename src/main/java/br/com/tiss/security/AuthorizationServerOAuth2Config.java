@@ -36,7 +36,7 @@ public class AuthorizationServerOAuth2Config  extends AuthorizationServerConfigu
 			.authorizedGrantTypes("password","refresh_token")
 			.scopes("read","write")
 			.autoApprove(true)
-			.redirectUris("http://localhost:4200/operadoras");
+			.redirectUris("http://localhost:4200/users");
 	}
 	
 	@Override

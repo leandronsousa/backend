@@ -28,10 +28,11 @@ public class ResourceServerOAuth2Config  extends WebSecurityConfigurerAdapter  {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login", "/oauth/authorize").permitAll()
+		http.requiresChannel().anyRequest().requiresSecure()
+			.and().authorizeRequests().antMatchers("/login", "/oauth/authorize").permitAll()
 			.and().authorizeRequests().anyRequest().authenticated()
 			.and().formLogin().permitAll()
-//			.and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
+//			.and().cors().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
 			.and().cors().disable().authorizeRequests();
 	}
 
