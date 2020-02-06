@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>tiss</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tiss</name>
-	<description>TISS Background</description>
+	<name>backend</name>
+	<description>Backend</description>
 
 	<properties>
 		<java.version>1.8</java.version>
